@@ -12,7 +12,11 @@ public partial class HotelContext : DbContext
     public HotelContext()
     {
     }
-    
+
+    public HotelContext(DbContextOptions<HotelContext> options) : base(options)
+    {
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<Room> Rooms { get; set; }
@@ -22,7 +26,7 @@ public partial class HotelContext : DbContext
     {
         optionsBuilder.UseNpgsql();
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -51,9 +55,9 @@ public partial class HotelContext : DbContext
             .HasOne(p => p.User)
             .WithMany()
             .HasForeignKey(p => p.UserId);
-        
+
         OnModelCreatingPartial(modelBuilder);
     }
-    
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
